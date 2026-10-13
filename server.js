@@ -72,14 +72,25 @@ const { WebSocketServer } = require("ws");
 // http서버: 정적 파일(html,css, js, ..)서비스
 // webSocket 서버 : 실시간 서비스
 
-const wss = new WebSocketServer({ server });
+const wss = new WebSocketServer({ server }); //cient의 25번째 줄의 주소를 받음
 
 wss.on("connection", (ws) => {
+  //cient의 25번째줄과 연결
   console.log("클라이언트 연결");
 
   //client에서 send 한 것을 받는 위치
   ws.on("message", (data) => {
-    console.log(data.toString());
+    let json;
+    try {
+      json = JSON.parse(data); //string-> JSON
+    } catch (error) {
+      return; //이상할 메세지일 경우에 무시
+    }
+    switch (json.type) {
+      case "chat":
+        console.log("chat 수신 : ", json.text);
+        break;
+    }
   });
   ws.on("close", () => {
     console.log("클라이언트 연결 해제");

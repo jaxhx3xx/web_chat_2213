@@ -31,10 +31,10 @@
    - WebSocketServer, WebSocket
    - server.js
      - wss.on("connection", (ws) => {});
-       - ws.on("message", (data) =>{});
+       - ws.on("message", (data) =>{}); //string -> json
        - ws.on("close" , () => {})
    - client.js
      - chatForm.addEventListener("submit", ...)
-       - ws.send(text);
+       - ws.send({ type : "message", text}); //json으로 보내지만 실제로는 toString()을 사용하여 string으로 변환 json -> string
      - ws.onopen = () => {};
      - ws.onclose = () => {};

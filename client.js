@@ -14,7 +14,8 @@ chatForm.addEventListener("submit", (event) => {
   const message = chatInput.value.trim(); //앞 뒤 여백자르기
   if (!message) return; //메세지 빈칸이면 return해라
 
-  ws.send(message); //서버로 message 날리기
+  //ws.send(message); //서버로 message 날리기
+  ws.send(JSON.stringify({ type: "chat", text: message })); // 얘는 객체로 그대로 보내는건데 이러면 JS밖에 이해를 못해서 stringify로 감싼것
   addMessage(message);
 
   chatInput.value = "";
