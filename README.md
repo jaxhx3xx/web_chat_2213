@@ -38,3 +38,16 @@
        - ws.send({ type : "message", text}); //json으로 보내지만 실제로는 toString()을 사용하여 string으로 변환 json -> string
      - ws.onopen = () => {};
      - ws.onclose = () => {};
+   2. Broadcast
+   - client A -> Server -> 모든 client
+   - client B -> Server -> 모든 client
+   - server.js
+     - 연결된 client들 목록
+       - wss.on("connection", ) 할 때, client 추가
+       - ws.on("close", ) 할 때, client 삭제
+     - message 수신 -> broadcastmessage 객체 -> broadcast()
+       - broadcastMessage 객체 = {type, text, id, timestamp}
+       - broadcast() = client 목록에서 WebSocket.OPEN인 client에게 send()
+     - client.js
+       - message송신 -> Server: send() when submit
+       - message 수신(onmessage())-> addmessage()
